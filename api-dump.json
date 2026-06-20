@@ -1,0 +1,19 @@
+{
+  "settings": {
+    "id": 1,
+    "shop_name": "VINO Browsing Center",
+    "address": "Address: 123 Sample Street\r\nArea: Green Park Nagar\r\nCity: Demo City\r\nState: Tamil Nadu\r\nPIN Code: 600000\r\nCountry: India",
+    "hours": "9am to 10 pm",
+    "holiday": "today",
+    "phone": "",
+    "whatsapp": "",
+    "email": "",
+    "map_url": "",
+    "hero_title": "",
+    "hero_photo": "https://ribbon-disbelief-preteen.ngrok-free.dev/media/site/HTML_PROJECT_M0iSJgV.jpg",
+    "hero_service_tags": ""
+  },
+  "why_choose_us": [],
+  "services": [],
+  "jobs": []
+}

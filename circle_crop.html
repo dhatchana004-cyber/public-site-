@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vino Browsing - Circle Photo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .circle-frame {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid #c9a84c;
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.6),
+                        0 0 60px rgba(201, 168, 76, 0.3),
+                        inset 0 0 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .circle-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        h2 {
+            color: #c9a84c;
+            font-size: 24px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #c9a84c, #f5d47a);
+            color: #1a1a2e;
+            border: none;
+            padding: 14px 40px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(201, 168, 76, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 168, 76, 0.6);
+        }
+
+        canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🏪 Vino Browsing - Circle Photo</h2>
+        
+        <div class="circle-frame" id="circleFrame">
+            <img id="shopPhoto" src="vino shop.jpg" alt="Vino Browsing Shop" 
+                 onerror="this.src=''; this.parentElement.style.background='#8B0000'; this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:gold;font-size:18px;font-weight:bold;text-align:center;padding:20px;\'>VINO<br>BROWSING<br><br>📷 Photo-ஐ இங்கே வையுங்கள்</div>'">
+        </div>
+
+        <canvas id="myCanvas" width="400" height="400"></canvas>
+
+        <button class="btn-download" onclick="downloadCirclePhoto()">
+            ⬇️ Circle Photo Download
+        </button>
+
+        <p style="color: #888; font-size: 13px; text-align: center; max-width: 400px;">
+            💡 Photo இல்லையென்றால், shop photo-ஐ <strong style="color:#c9a84c">"vino shop.jpg"</strong> என rename செய்து இதே folder-ல் வையுங்கள்
+        </p>
+    </div>
+
+    <script>
+        function downloadCirclePhoto() {
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+            const img = document.getElementById('shopPhoto');
+
+            canvas.width = 500;
+            canvas.height = 500;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw circle clip
+            ctx.beginPath();
+            ctx.arc(250, 250, 244, 0, Math.PI * 2);
+            ctx.clip();
+
+            // Draw image inside circle
+            ctx.drawImage(img, 0, 0, 500, 500);
+
+            // Gold border
+            ctx.beginPath();
+            ctx.arc(250, 250, 244, 0, Math.PI * 2);
+            ctx.strokeStyle = '#c9a84c';
+            ctx.lineWidth = 12;
+            ctx.stroke();
+
+            // Download
+            const link = document.createElement('a');
+            link.download = 'vino_browsing_circle.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
