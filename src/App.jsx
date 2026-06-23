@@ -40,7 +40,7 @@ function App() {
         href={
           (globalData?.settings?.whatsapp_link || globalData?.settings?.whatsapp_url || globalData?.settings?.whatsapp)?.startsWith('http')
             ? (globalData?.settings?.whatsapp_link || globalData?.settings?.whatsapp_url || globalData?.settings?.whatsapp)
-            : `https://wa.me/${globalData?.settings?.whatsapp || '918344516738'}`
+            : `https://api.whatsapp.com/send?phone=${String(globalData?.settings?.whatsapp || '918344516738').replace(/[^0-9]/g, '')}`
         }
         target="_blank"
         rel="noopener noreferrer"

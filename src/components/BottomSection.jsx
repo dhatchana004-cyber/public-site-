@@ -181,7 +181,12 @@ const BottomSection = ({ globalData }) => {
       || globalData?.settings?.whatsapp
       || globalData?.settings?.whatsapp_number
       || globalData?.settings?.whatsapp_phone;
-    return ensureAbsoluteUrl(ws, "https://wa.me") || "https://wa.me/918344516738";
+      
+    const strWs = String(ws || "918344516738").trim();
+    if (strWs.startsWith('http://') || strWs.startsWith('https://')) return strWs;
+    if (strWs.includes('wa.me/')) return `https://${strWs}`;
+    
+    return `https://api.whatsapp.com/send?phone=${strWs.replace(/[^0-9]/g, '')}`;
   };
 
   const getInstagramLink = () => {
@@ -211,14 +216,15 @@ const BottomSection = ({ globalData }) => {
       || globalData?.settings?.whatsapp_phone;
       
     const textParam = `text=Hi%20Vino%20Browsing,%20I%20want%20to%20apply%20for%20the%20job%20update:%20*${encodeURIComponent(jobTitle)}*.%20Please%20help%20me%20apply.`;
-    const absoluteWs = ensureAbsoluteUrl(ws, "https://wa.me");
-    if (absoluteWs) {
-      if (absoluteWs.includes('wa.me') || absoluteWs.includes('api.whatsapp.com')) {
-        return absoluteWs + (absoluteWs.includes('?') ? '&' : '?') + textParam;
-      }
-      return absoluteWs;
+    const strWs = String(ws || "918344516738").trim();
+    
+    if (strWs.startsWith('http://') || strWs.startsWith('https://')) {
+      return strWs + (strWs.includes('?') ? '&' : '?') + textParam;
     }
-    return `https://wa.me/918344516738?${textParam}`;
+    if (strWs.includes('wa.me/')) {
+      return `https://${strWs}` + (strWs.includes('?') ? '&' : '?') + textParam;
+    }
+    return `https://api.whatsapp.com/send?phone=${strWs.replace(/[^0-9]/g, '')}&${textParam}`;
   };
   
   let mapUrl = globalData?.settings?.map_url || "";
