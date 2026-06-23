@@ -5,23 +5,17 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ['ribbon-disbelief-preteen.ngrok-free.dev'],
+    allowedHosts: ['vino-browsing-backend.onrender.com'],
     proxy: {
       '/api': {
-        target: 'https://ribbon-disbelief-preteen.ngrok-free.dev',
+        target: 'https://vino-browsing-backend.onrender.com',
         changeOrigin: true,
         secure: false,
-        headers: {
-          'ngrok-skip-browser-warning': '69420'
-        }
       },
       '/media': {
-        target: 'https://ribbon-disbelief-preteen.ngrok-free.dev',
+        target: 'https://vino-browsing-backend.onrender.com',
         changeOrigin: true,
         secure: false,
-        headers: {
-          'ngrok-skip-browser-warning': '69420'
-        }
       }
     }
   }
