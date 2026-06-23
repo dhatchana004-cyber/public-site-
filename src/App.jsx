@@ -12,6 +12,13 @@ const WhatsAppIcon = ({ size = 28 }) => (
 );
 
 function App() {
+  const getWhatsAppLink = (ws) => {
+    if (ws && String(ws).trim().startsWith('http')) return String(ws).trim();
+    let cleaned = String(ws || '918344516738').replace(/[^0-9]/g, '');
+    if (cleaned.length === 10) cleaned = '91' + cleaned;
+    return `https://api.whatsapp.com/send?phone=${cleaned}`;
+  };
+
   const [globalData, setGlobalData] = React.useState(null);
 
   React.useEffect(() => {
@@ -37,11 +44,7 @@ function App() {
       <Services globalData={globalData} />
       <BottomSection globalData={globalData} />
       <a
-        href={
-          (globalData?.settings?.whatsapp_link || globalData?.settings?.whatsapp_url || globalData?.settings?.whatsapp)?.startsWith('http')
-            ? (globalData?.settings?.whatsapp_link || globalData?.settings?.whatsapp_url || globalData?.settings?.whatsapp)
-            : `https://api.whatsapp.com/send?phone=${String(globalData?.settings?.whatsapp || '918344516738').replace(/[^0-9]/g, '')}`
-        }
+        href={getWhatsAppLink(globalData?.settings?.whatsapp_link || globalData?.settings?.whatsapp_url || globalData?.settings?.whatsapp)}
         target="_blank"
         rel="noopener noreferrer"
         className="floating-whatsapp"

@@ -27,7 +27,9 @@ const Header = ({ globalData }) => {
     if (ws && (ws.startsWith('http://') || ws.startsWith('https://'))) {
       return ws;
     }
-    return `https://api.whatsapp.com/send?phone=${String(ws || "918344516738").replace(/[^0-9]/g, '')}`;
+    let cleaned = String(ws || "918344516738").replace(/[^0-9]/g, '');
+    if (cleaned.length === 10) cleaned = '91' + cleaned;
+    return `https://api.whatsapp.com/send?phone=${cleaned}`;
   };
 
   return (

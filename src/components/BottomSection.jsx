@@ -186,7 +186,9 @@ const BottomSection = ({ globalData }) => {
     if (strWs.startsWith('http://') || strWs.startsWith('https://')) return strWs;
     if (strWs.includes('wa.me/')) return `https://${strWs}`;
     
-    return `https://api.whatsapp.com/send?phone=${strWs.replace(/[^0-9]/g, '')}`;
+    let cleaned = strWs.replace(/[^0-9]/g, '');
+    if (cleaned.length === 10) cleaned = '91' + cleaned;
+    return `https://api.whatsapp.com/send?phone=${cleaned}`;
   };
 
   const getInstagramLink = () => {
@@ -224,7 +226,10 @@ const BottomSection = ({ globalData }) => {
     if (strWs.includes('wa.me/')) {
       return `https://${strWs}` + (strWs.includes('?') ? '&' : '?') + textParam;
     }
-    return `https://api.whatsapp.com/send?phone=${strWs.replace(/[^0-9]/g, '')}&${textParam}`;
+    
+    let cleaned = strWs.replace(/[^0-9]/g, '');
+    if (cleaned.length === 10) cleaned = '91' + cleaned;
+    return `https://api.whatsapp.com/send?phone=${cleaned}&${textParam}`;
   };
   
   let mapUrl = globalData?.settings?.map_url || "";
