@@ -21,8 +21,12 @@ function App() {
 
   const [globalData, setGlobalData] = React.useState(null);
 
+// Live Backend URL-ஐ இங்கு கொடுக்கவும்
+  const API_BASE_URL = import.meta.env.PROD 
+    ? 'https://api.vinobrowsing.com' // <-- Aapanel-ல் உள்ள உங்கள் Backend URL-ஐ இங்கு மாற்றவும்
+    : '';
   React.useEffect(() => {
-    fetch('/api/public-site/data/', {
+    fetch(`${API_BASE_URL}/api/public-site/data/`, {
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
