@@ -32,6 +32,31 @@ function App() {
     .then(res => res.json())
     .then(data => {
        console.log('Fetched Public Site Data:', data);
+       
+       // Fix image URLs from backend (Handle relative paths and 127.0.0.1 bugs)
+       const fixUrl = (url) => {
+         if (!url) return url;
+         if (url.includes('127.0.0.1') || url.includes('localhost')) {
+           try {
+             return (API_BASE_URL || 'https://api.vinobrowsing.com') + new URL(url).pathname;
+           } catch(e) {}
+         }
+         if (url.startsWith('/media/')) {
+           return (API_BASE_URL || 'https://api.vinobrowsing.com') + url;
+         }
+         return url;
+       };
+
+       if (data?.settings?.hero_photo) {
+         data.settings.hero_photo = fixUrl(data.settings.hero_photo);
+       }
+       if (data?.jobs) {
+         data.jobs = data.jobs.map(j => ({ ...j, image: fixUrl(j.image) }));
+       }
+       if (data?.education_apps) {
+         data.education_apps = data.education_apps.map(a => ({ ...a, image: fixUrl(a.image) }));
+       }
+
        setGlobalData(data);
     })
     .catch(err => console.error('Error fetching data:', err));
