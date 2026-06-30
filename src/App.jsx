@@ -27,11 +27,7 @@ function App() {
     : '';
   React.useEffect(() => {
     fetch(`${API_BASE_URL}/api/public-site/data/`, {
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
+      cache: 'no-store'
     })
     .then(res => res.json())
     .then(data => {
