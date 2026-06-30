@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://vino-browsing-backend.onrender.com/api/$1"
+      "destination": "https://api.vinobrowsing.com/api/$1"
     },
     {
       "source": "/media/(.*)",
-      "destination": "https://vino-browsing-backend.onrender.com/media/$1"
+      "destination": "https://api.vinobrowsing.com/media/$1"
     },
     {
       "source": "/(.*)",

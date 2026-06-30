@@ -128,16 +128,18 @@ const BottomSection = ({ globalData }) => {
       }))
     : defaultJobsData;
 
-  // 1.2. Results Data mapping
-  const resultsData = (globalData && globalData.results && globalData.results.length > 0)
-    ? globalData.results.map((res, idx) => ({
-        ...res,
-        title: res.title || 'N/A',
-        status: res.status || 'Declared',
-        lastDate: res.last_date || res.lastDate || 'N/A',
-        examDate: res.exam_date || res.examDate || 'N/A',
-        image: res.image || res.photo || res.poster || null,
-        type: res.type || (idx % 3 === 0 ? 'green' : idx % 3 === 1 ? 'blue' : 'red')
+  // 1.2. Education Applications Data mapping (Used for Exam Updates)
+  const resultsData = (globalData && globalData.education_apps && globalData.education_apps.length > 0)
+    ? globalData.education_apps.map((app, idx) => ({
+        ...app,
+        title: app.title || app.exam_name || 'N/A',
+        status: app.status || 'Active',
+        lastDate: app.last_date || app.lastDate || 'N/A',
+        examDate: app.exam_date || app.examDate || 'N/A',
+        image: app.image || app.photo || app.poster || null,
+        type: app.type || (idx % 3 === 0 ? 'green' : idx % 3 === 1 ? 'blue' : 'red'),
+        qualification: app.qualification || 'N/A',
+        post: app.post_count || 'N/A'
       }))
     : defaultResultsData;
 
@@ -332,11 +334,11 @@ const BottomSection = ({ globalData }) => {
             </div>
           </div>
 
-          {/* 2 — Exam Updates */}
-          <div id="exam-updates" className="widget-card bg-white" style={{ border: '1px solid #e5e7eb' }}>
+          {/* 2 — Education Applications */}
+          <div id="education-applications" className="widget-card bg-white" style={{ border: '1px solid #e5e7eb' }}>
             <div className="widget-header widget-header-white">
               <span className="widget-title" style={{ color: 'var(--dark-blue)' }}>
-                <span className="title-accent" style={{ backgroundColor: 'var(--primary-blue)' }}></span> Exam Updates
+                <span className="title-accent" style={{ backgroundColor: 'var(--primary-blue)' }}></span> Education Applications
               </span>
               <button className="view-all-btn" style={{ backgroundColor: 'var(--primary-blue)' }}>View All</button>
             </div>
@@ -366,7 +368,15 @@ const BottomSection = ({ globalData }) => {
                       )}
                     </div>
                     
-                    <div className="job-card-grid exam-grid-layout">
+                    <div className="job-card-grid">
+                      <div className="job-grid-cell">
+                        <span className="cell-label">Post:</span>
+                        <span className="cell-value">{res.post || 'N/A'}</span>
+                      </div>
+                      <div className="job-grid-cell">
+                        <span className="cell-label">Qualification:</span>
+                        <span className="cell-value">{res.qualification || 'N/A'}</span>
+                      </div>
                       <div className="job-grid-cell">
                         <span className="cell-label">Last Date:</span>
                         <span className="cell-value date-highlight-red">{res.lastDate}</span>

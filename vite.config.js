@@ -5,15 +5,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ['vino-browsing-backend.onrender.com'],
+    allowedHosts: ['api.vinobrowsing.com'],
     proxy: {
       '/api': {
-        target: 'https://vino-browsing-backend.onrender.com',
+        target: 'https://api.vinobrowsing.com',
         changeOrigin: true,
         secure: false,
       },
       '/media': {
-        target: 'https://vino-browsing-backend.onrender.com',
+        target: 'https://api.vinobrowsing.com',
         changeOrigin: true,
         secure: false,
       }
