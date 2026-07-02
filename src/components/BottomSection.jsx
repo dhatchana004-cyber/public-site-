@@ -113,6 +113,26 @@ const defaultResultsData = [
 const BottomSection = ({ globalData }) => {
   const [selectedPhoto, setSelectedPhoto] = React.useState(null);
 
+  const handleDownload = async (e, url, title) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(url, { method: 'GET' });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `${(title || 'image').toLowerCase().replace(/\s+/g, '_')}_poster.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error('Direct download failed, falling back to new tab', err);
+      window.open(url, '_blank');
+    }
+  };
+
   // 1. Jobs Data mapping
   const jobsData = (globalData && globalData.jobs && globalData.jobs.length > 0)
     ? globalData.jobs.map((job, idx) => ({
@@ -531,9 +551,7 @@ const BottomSection = ({ globalData }) => {
                 {selectedPhoto.image && (
                   <a
                     href={selectedPhoto.image}
-                    download={`${selectedPhoto.title.toLowerCase().replace(/\s+/g, '_')}_poster.png`}
-                    target="_blank"
-                    rel="noreferrer"
+                    onClick={(e) => handleDownload(e, selectedPhoto.image, selectedPhoto.title)}
                     className="photo-modal-download-btn"
                   >
                     Download Poster

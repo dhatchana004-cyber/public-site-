@@ -33,14 +33,20 @@ function App() {
     .then(data => {
        console.log('Fetched Public Site Data:', data);
        
-       // Fix image URLs from backend (Handle relative paths and 127.0.0.1 bugs)
+       // Fix image URLs from backend (Handle relative paths, ngrok, and absolute bugs)
        const fixUrl = (url) => {
          if (!url) return url;
-         if (url.includes('127.0.0.1') || url.includes('localhost')) {
-           try {
-             return (API_BASE_URL || 'https://api.vinobrowsing.com') + new URL(url).pathname;
-           } catch(e) {}
+         
+         // Extract the path if it's an absolute URL
+         try {
+           const urlObj = new URL(url);
+           if (urlObj.pathname.startsWith('/media/')) {
+             return (API_BASE_URL || 'https://api.vinobrowsing.com') + urlObj.pathname;
+           }
+         } catch(e) {
+           // Not an absolute URL, continue
          }
+
          if (url.startsWith('/media/')) {
            return (API_BASE_URL || 'https://api.vinobrowsing.com') + url;
          }
