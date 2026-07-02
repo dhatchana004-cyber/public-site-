@@ -115,6 +115,10 @@ const BottomSection = ({ globalData }) => {
 
   const handleDownload = async (e, url, title) => {
     e.preventDefault();
+    
+    // Open a blank tab synchronously to prevent popup blockers
+    const fallbackWindow = window.open('', '_blank');
+    
     try {
       const response = await fetch(url, { method: 'GET' });
       if (!response.ok) throw new Error('Network response was not ok');
@@ -127,9 +131,16 @@ const BottomSection = ({ globalData }) => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
+      
+      // Close the fallback tab since direct download succeeded
+      if (fallbackWindow) fallbackWindow.close();
     } catch (err) {
       console.error('Direct download failed, falling back to new tab', err);
-      window.open(url, '_blank');
+      if (fallbackWindow) {
+        fallbackWindow.location.href = url; // Navigate the unblocked tab to the image
+      } else {
+        window.location.href = url; // Absolute fallback
+      }
     }
   };
 
